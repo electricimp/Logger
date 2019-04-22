@@ -22,7 +22,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-LOGGER_DEFAULT_UART_BAUD_RATE = 115200;
+const LOGGER_DEFAULT_UART_BAUD_RATE = 115200;
 
 enum LOG_LEVEL {
     DEBUG,
@@ -62,29 +62,32 @@ Logger <- {
                 }
             }
         }
+
+        // Return this Logger "instance"
+        return Logger;
     },
 
     "debug" : function(msg) {
         if (level <= LOG_LEVEL.DEBUG) {
-            _log("[DEBUG]: " + msg.tostring());
+            return _log("[DEBUG]: " + msg.tostring());
         }
     },
 
     "info" : function(msg) {
         if (level <= LOG_LEVEL.INFO) {
-            _log("[INFO]: " + msg.tostring());
+            return _log("[INFO]: " + msg.tostring());
         }
     },
 
     "warning" : function(msg) {
         if (level <= LOG_LEVEL.WARNING) {
-            _log("[WARNING]: " + msg.tostring());
+            return _log("[WARNING]: " + msg.tostring());
         }
     },
 
     "error" : function(msg) {
         if (level <= LOG_LEVEL.ERROR) {
-            _log("[ERROR]: " + msg.tostring());
+            return _log("[ERROR]: " + msg.tostring(), true);
         }
     },
 
@@ -102,25 +105,18 @@ Logger <- {
 
         // Log message
         if (isAgent) {
-            (err) ? server.error(msg) : server.log(msg);
+            return (err) ? server.error(msg) : server.log(msg);
         } else {
+            local rtnVal = SEND_ERROR_NOT_CONNECTED;
             if (_isConnected()) {
-                (err) ? server.error(msg) : server.log(msg);
+                rtnVal = (err) ? server.error(msg) : server.log(msg);
             }
             if (uart != null) {
                 local d = date();
                 local ts = format("%04d-%02d-%02d %02d:%02d:%02d", d.year, d.month+1, d.day, d.hour, d.min, d.sec);
                 uart.write(ts + " " + msg + "\n\r");
             }
+            return rtnVal;
         }
     },
 }
-
-// Global logging functions
-// NOTE: "error", "debug" and "log" are now all
-// global variables and should not be used as 
-// local variable names in other places in the code
-debug <- Logger.debug.bindenv(Logger);
-log <- Logger.info.bindenv(Logger);
-warn <- Logger.warning.bindenv(Logger);
-error <- Logger.error.bindenv(Logger);
