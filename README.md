@@ -6,7 +6,7 @@ The Logger library adds log level tags to the imp API's logging methods. And fil
 
 ## Logger Methods ##
 
-### init(level[, options]) ###
+### init(*level[, options]*) ###
 
 Use the init method to set the log level. When using the logging functions in this library, only the logs equal to or below the currently set logging level will appear. By default the level is set to LOG_LEVEL.DEBUG, so all logs created by the Logger's logging functions will appear. On the device the logger will log to UART if it is available, and if the device is connected to the server it will also log using the imp API's server logging methods. 
 
@@ -16,6 +16,10 @@ Use the init method to set the log level. When using the logging functions in th
 | --- | --- | --- | --- |
 | *level* | enum | Yes | LOG_LEVEL, See below |  
 | *options* | table | no | Table containing additional configuration parameters. The default is an empty table. |
+
+#### Return Value ####
+
+Logger table reference.
 
 ##### LOG_LEVEL enum: ##### 
 
@@ -52,9 +56,19 @@ opts <- {
 Logger.init(LOG_LEVEL.INFO, opts);
 ```
 
-### debug ###
+### debug(*logEntry*) ###
 
 Creates a debug level log.
+
+#### Parameters ####
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| *logEntry* | String | Yes | Message to be logged. |  
+
+#### Return Value ####
+
+Integer — 0 on success, or a [Send Error Code](https://developer.electricimp.com/api/server) on failure
 
 ```
 Logger.debug("Wake reason: new squirrel code");
@@ -66,9 +80,19 @@ Logger.debug("Wake reason: new squirrel code");
 2019-04-18 23:12:20 [DEBUG]: Wake reason: new squirrel code
 ```
 
-### info ###
+### info(*logEntry*) ###
 
 Creates a info level log.
+
+#### Parameters ####
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| *logEntry* | String | Yes | Message to be logged. |  
+
+#### Return Value ####
+
+Integer — 0 on success, or a [Send Error Code](https://developer.electricimp.com/api/server) on failure
 
 ```
 Logger.info("Disabling GPS power");
@@ -80,9 +104,19 @@ Logger.info("Disabling GPS power");
 2019-04-18 23:12:33 [INFO]: Disabling GPS power
 ```
 
-### warning ###
+### warning(*logEntry*) ###
 
 Creates a warning level log.
+
+#### Parameters ####
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| *logEntry* | String | Yes | Message to be logged. |  
+
+#### Return Value ####
+
+Integer — 0 on success, or a [Send Error Code](https://developer.electricimp.com/api/server) on failure
 
 ```
 Logger.warning("Going to sleep...");
@@ -94,9 +128,19 @@ Logger.warning("Going to sleep...");
 2019-04-18 23:12:33 [WARNING]: Going to sleep...
 ```
 
-### error ###
+### error(*logEntry*) ###
 
 Creates an error level log. These will be logged using server.error method.
+
+#### Parameters ####
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| *logEntry* | String | Yes | Message to be logged. |  
+
+#### Return Value ####
+
+Integer — 0 on success, or a [Send Error Code](https://developer.electricimp.com/api/server) on failure
 
 ```
 Logger.error("Report send failed.");
