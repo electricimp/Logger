@@ -35,6 +35,8 @@ enum LOG_LEVEL {
 // NOTE: Logger can be used without initializing, log level will default to DEBUG, an no uart logs will appear
 Logger <- {
 
+    "VERSION" : "1.0.0",
+
     "level"   : LOG_LEVEL.DEBUG,
     "isAgent" : null, 
     "uart"    : null,

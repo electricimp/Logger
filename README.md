@@ -1,6 +1,6 @@
 # Logger #
 
-The Logger library adds log level tags to the imp API's logging methods. And filters logs based on the currently set log level. Logger is a singleton and as such it can be used without initialization. This library can be used on either/both the agent an the device. 
+The Logger library adds log level tags to the imp API's logging methods, and filters logs based on the currently set log level. This library can be used on either/both the agent and the device. Logger is a singleton and as such it can be used without initialization. If the device is [initialized](#initlevel-options) with UART it will log based on the level to both the UART and, if the device is connected to the server, to the server via the imp API's `server.log` and `server.error` methods. 
 
 **To add this library to your project, add** `#require "Logger.lib.nut:1.0.0"` **to the top of your code.**
 
@@ -8,14 +8,14 @@ The Logger library adds log level tags to the imp API's logging methods. And fil
 
 ### init(*level[, options]*) ###
 
-Use the init method to set the log level. When using the logging functions in this library, only the logs equal to or below the currently set logging level will appear. By default the level is set to LOG_LEVEL.DEBUG, so all logs created by the Logger's logging functions will appear. On the device the logger will log to UART if it is available, and if the device is connected to the server it will also log using the imp API's server logging methods. 
+Use the init method to set the log level, and on the device to enable UART logging. When using the logging functions in this library, only the logs equal to or below the currently set logging level will appear. By default the level is set to LOG_LEVEL.DEBUG, so all logging methods with generate log messages.
 
 #### Parameters ####
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| *level* | enum | Yes | LOG_LEVEL, See below |  
-| *options* | table | no | Table containing additional configuration parameters. The default is an empty table. |
+| *level* | enum | Yes | LOG_LEVEL, [See below](#log_level-enum) |  
+| *options* | table | No | Table containing additional configuration parameters. The default is an empty table. [See below](#init-options) |
 
 #### Return Value ####
 
@@ -30,7 +30,7 @@ Logger table reference.
 | *WARNING* | 2 |
 | *ERROR* | 3 |
 
-##### Options table #####
+##### Init Options #####
 
 | Slot | Value | Supported on | Description | 
 | --- | --- | --- | --- |
